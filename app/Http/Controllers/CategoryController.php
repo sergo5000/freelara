@@ -9,9 +9,21 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::defaultOrder()->withDepth()->get()->toTree();
+        $categoriesArray = $this->toArray($categories);
 
-        //dd($categories);
+        return view('welcome', compact('categories', 'categoriesArray'));
+    }
 
-        return view('welcome', compact('categories'));
+    protected function toArray($categories)
+    {
+        $categoriesArray = [];
+        foreach($categories as $category) {
+            $categoriesArray[] = [
+                'name' => $category->name,
+                'children' => $this->toArray($category->children),
+            ];
+        }
+
+        return $categoriesArray;
     }
 }

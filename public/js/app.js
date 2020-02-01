@@ -19281,7 +19281,146 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+var CategoryManager =
+/*#__PURE__*/
+function () {
+  function CategoryManager() {
+    _classCallCheck(this, CategoryManager);
+
+    this.init = this.init.bind(this);
+    this.change = this.change.bind(this);
+    this.values = [];
+    this.container;
+    document.addEventListener('DOMContentLoaded', this.init);
+  }
+
+  _createClass(CategoryManager, [{
+    key: "init",
+    value: function init() {
+      this.container = document.getElementById('category-container');
+
+      if (!this.container) {
+        throw new Error('CategoryManager: Category container ​​not found');
+      }
+
+      this.container.addEventListener('change', this.change);
+      var categoryValues = document.getElementById('category-values');
+
+      if (!categoryValues) {
+        throw new Error('CategoryManager: Category values ​​not found');
+      }
+
+      this.values = JSON.parse(categoryValues.innerHTML);
+      categoryValues.remove();
+      this.addSelect(this.values);
+    }
+  }, {
+    key: "addSelect",
+    value: function addSelect(values) {
+      var _this = this;
+
+      var number = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+      var parent = document.createElement('div');
+      parent.classList.add('category-select');
+      parent.setAttribute('data-number', number);
+      var select = document.createElement('select');
+      this.addOption(select, 'Выберите категорию', '');
+      values.forEach(function (item, index) {
+        _this.addOption(select, item.name, index);
+      });
+      parent.append(select);
+      this.container.append(parent);
+    }
+  }, {
+    key: "addOption",
+    value: function addOption(parent, text) {
+      var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      var el = document.createElement('option');
+      el.innerHTML = text;
+      el.value = value;
+      parent.append(el);
+    }
+  }, {
+    key: "change",
+    value: function change(event) {
+      var select = event.target;
+
+      if (!select || select.tagName != 'SELECT') {
+        return;
+      }
+
+      parent = select.parentElement;
+      var parentNumber = parent.dataset.number;
+      this.removeElements(parentNumber);
+
+      if (!select.value) {
+        return;
+      }
+
+      var currentNumber = this.getCurrentNumber(parentNumber, select.value);
+      var values = this.getValues(currentNumber);
+
+      if (values.length > 0) {
+        this.addSelect(values, currentNumber);
+      }
+    }
+  }, {
+    key: "getCurrentNumber",
+    value: function getCurrentNumber(parentNumber, currentValue) {
+      if (parentNumber && currentValue) {
+        return "".concat(parentNumber, "-").concat(currentValue);
+      } else if (currentValue) {
+        return "".concat(currentValue);
+      } else {
+        throw new Error('CategoryManager: Current number error');
+      }
+    }
+  }, {
+    key: "removeElements",
+    value: function removeElements(number) {
+      var els = this.container.querySelectorAll('.category-select');
+      var found = false;
+      els.forEach(function (el) {
+        if (el.dataset.number == number) {
+          found = true;
+        } else if (found) {
+          el.remove();
+        }
+      });
+    }
+  }, {
+    key: "getValues",
+    value: function getValues(number) {
+      var numberArray = number.split('-');
+      var values = this.values;
+
+      for (var key in numberArray) {
+        var index = numberArray[key];
+        var item = values[index];
+
+        if (!item) {
+          throw new Error('CategoryManager: index not founnd');
+        }
+
+        values = item.children;
+      }
+
+      return values;
+    }
+  }]);
+
+  return CategoryManager;
+}();
+
+new CategoryManager();
 
 /***/ }),
 
@@ -19335,8 +19474,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /app/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /app/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! H:\USR\www\freelara\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! H:\USR\www\freelara\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -1,1 +1,10 @@
 @import '~bootstrap/scss/bootstrap';
+
+.category-select {
+    margin: 0 0 20px;
+}
+
+.category-select select {
+    padding: 5px 10px;  
+    min-width: 300px;
+}
