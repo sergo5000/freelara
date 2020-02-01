@@ -19,6 +19,7 @@ services:
             - ./:/app
         depends_on:
             - freelara-mysql
+
     freelara-php-cli:
         build:
             context: ./docker
@@ -39,7 +40,7 @@ services:
             - "MYSQL_PASSWORD=secret"
             - "MYSQL_DATABASE=app"
         ports:
-            - "33062:3306"
+            - "3307:3306"
     freelara-node-watch:
         image: node:12.7-alpine
         volumes:
