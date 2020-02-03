@@ -34,19 +34,19 @@ class CategoryManager {
         parent.classList.add('category-select');
         parent.setAttribute('data-number', number);
 
-        let select = document.createElement('select');        
+        let select = document.createElement('select');                
         
         this.addOption(select, 'Выберите категорию', '');
 
-        values.forEach((item, index) => {            
-            this.addOption(select, item.name, index);
-        });
+        for(let key in values) {
+            this.addOption(select, values[key].name, key);
+        }
 
         parent.append(select);
         this.container.append(parent);
     }
 
-    addOption(parent, text, value = null) {
+    addOption(parent, text, value) {
         let el = document.createElement('option');        
         el.innerHTML = text;
         el.value = value;
@@ -64,13 +64,16 @@ class CategoryManager {
         let parentNumber = parent.dataset.number;
         this.removeElements(parentNumber);
 
-        if(!select.value) {
+        if(select.value) {
+            select.name = 'categories[]';
+        } else {
+            select.name = '';
             return;
         }
 
         let currentNumber = this.getCurrentNumber(parentNumber, select.value);
         let values = this.getValues(currentNumber);
-        if(values.length > 0) {
+        if(Object.keys(values).length > 0) {
             this.addSelect(values, currentNumber);
         }
     }

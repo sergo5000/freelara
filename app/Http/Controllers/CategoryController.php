@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         $categoriesArray = [];
         foreach($categories as $category) {
-            $categoriesArray[] = [
+            $categoriesArray[$category->id] = [
                 'name' => $category->name,
                 'children' => $this->toArray($category->children),
             ];

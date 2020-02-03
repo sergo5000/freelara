@@ -19325,24 +19325,23 @@ function () {
   }, {
     key: "addSelect",
     value: function addSelect(values) {
-      var _this = this;
-
       var number = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
       var parent = document.createElement('div');
       parent.classList.add('category-select');
       parent.setAttribute('data-number', number);
       var select = document.createElement('select');
       this.addOption(select, 'Выберите категорию', '');
-      values.forEach(function (item, index) {
-        _this.addOption(select, item.name, index);
-      });
+
+      for (var key in values) {
+        this.addOption(select, values[key].name, key);
+      }
+
       parent.append(select);
       this.container.append(parent);
     }
   }, {
     key: "addOption",
-    value: function addOption(parent, text) {
-      var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    value: function addOption(parent, text, value) {
       var el = document.createElement('option');
       el.innerHTML = text;
       el.value = value;
@@ -19361,14 +19360,17 @@ function () {
       var parentNumber = parent.dataset.number;
       this.removeElements(parentNumber);
 
-      if (!select.value) {
+      if (select.value) {
+        select.name = 'categories[]';
+      } else {
+        select.name = '';
         return;
       }
 
       var currentNumber = this.getCurrentNumber(parentNumber, select.value);
       var values = this.getValues(currentNumber);
 
-      if (values.length > 0) {
+      if (Object.keys(values).length > 0) {
         this.addSelect(values, currentNumber);
       }
     }
