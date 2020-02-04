@@ -16,9 +16,18 @@
     <body>
         <div class="container">
             <div class="row">
-                <div id="category-container" class="col align-self-center">                    
-                    <div id="category-values" hidden><?= json_encode($categoriesArray) ?></div>
-                </div>
+                <form method="POST" action="{{ route('create') }}">
+                    @csrf
+                    <p>Поле 1: <input type="text" name="login"></p>
+
+                    <div id="category-container" class="col align-self-center">
+                        <div id="category-values" hidden><?= json_encode($categoriesArray) ?></div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Создать</button>
+                    </div>
+                </form>
             </div>
         </div>
     </body>

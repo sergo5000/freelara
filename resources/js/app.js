@@ -56,7 +56,7 @@ class CategoryManager {
 
     change(event) {
         let select = event.target;
-        if(!select || select.tagName != 'SELECT') {
+        if(!select || select.tagName !== 'SELECT') {
             return;
         }
 
@@ -93,7 +93,7 @@ class CategoryManager {
         let found = false;
 
         els.forEach((el) => {
-            if(el.dataset.number == number) {
+            if(el.dataset.number === number) {
                 found = true;
             } else if(found) {
                 el.remove();
