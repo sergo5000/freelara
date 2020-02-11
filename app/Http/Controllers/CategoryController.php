@@ -4,26 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Entity\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::defaultOrder()->withDepth()->get()->toTree();
-        $categoriesArray = $this->toArray($categories);
+        $regions = DB::table('regions')->get();
 
-        return view('welcome', compact('categories', 'categoriesArray'));
+        dd($regions);
+
+        return view('welcome', compact('regions'));
     }
 
 
 
     public function create(Request $request)
     {
-        $categoryId = $request->input('categories');
+       // $categoryId = $request->input('categories');
         
-        dd(end($categoryId));
+      //  dd(end($categoryId));
 
-        // return view('welcome', compact('categories', 'categoriesArray'));
+         return view('welcome');
     }
 
     protected function toArray($categories)

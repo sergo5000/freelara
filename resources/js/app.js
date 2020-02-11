@@ -1,123 +1,49 @@
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
 require('./bootstrap');
 
-class CategoryManager {
-    constructor() {
-        this.init = this.init.bind(this);
-        this.change = this.change.bind(this);
+import Autocomplete from '@trevoreyre/autocomplete-vue'
 
-        this.values = [];
-        this.container;
+window.Vue = require('vue');
 
-        document.addEventListener('DOMContentLoaded', this.init);
-    }
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
 
-    init() {
-        this.container = document.getElementById('category-container');
-        if(!this.container) {
-            throw new Error('CategoryManager: Category container ​​not found');
-        }
-        this.container.addEventListener('change', this.change);
-
-        let categoryValues = document.getElementById('category-values');
-        if(!categoryValues) {
-            throw new Error('CategoryManager: Category values ​​not found');
-        }
-
-        this.values = JSON.parse(categoryValues.innerHTML);
-        categoryValues.remove();
-
-        this.addSelect(this.values);
-    }
-
-    addSelect(values, number = '') {
-        let parent = document.createElement('div');
-        parent.classList.add('category-select');
-        parent.setAttribute('data-number', number);
-
-        let select = document.createElement('select');                
-        
-        this.addOption(select, 'Выберите категорию', '');
-
-        for(let key in values) {
-            this.addOption(select, values[key].name, key);
-        }
-
-        parent.append(select);
-        this.container.append(parent);
-    }
-
-    addOption(parent, text, value) {
-        let el = document.createElement('option');        
-        el.innerHTML = text;
-        el.value = value;
-
-        parent.append(el);
-    }
-
-    change(event) {
-        let select = event.target;
-        if(!select || select.tagName !== 'SELECT') {
-            return;
-        }
-
-        parent = select.parentElement;        
-        let parentNumber = parent.dataset.number;
-        this.removeElements(parentNumber);
-
-        if(select.value) {
-            select.name = 'categories[]';
-        } else {
-            select.name = '';
-            return;
-        }
-
-        let currentNumber = this.getCurrentNumber(parentNumber, select.value);
-        let values = this.getValues(currentNumber);
-        if(Object.keys(values).length > 0) {
-            this.addSelect(values, currentNumber);
-        }
-    }
-
-    getCurrentNumber(parentNumber, currentValue) {
-        if(parentNumber && currentValue) {
-            return `${parentNumber}-${currentValue}`;
-        } else if(currentValue) {
-            return `${currentValue}`;
-        } else {
-            throw new Error('CategoryManager: Current number error');
-        }
-    }
-
-    removeElements(number) {
-        let els = this.container.querySelectorAll('.category-select');
-        let found = false;
-
-        els.forEach((el) => {
-            if(el.dataset.number === number) {
-                found = true;
-            } else if(found) {
-                el.remove();
-            }
-        });
-    }
-
-    getValues(number) {
-        let numberArray = number.split('-');
-
-        let values = this.values;
-        for(let key in numberArray) {
-            let index = numberArray[key];
-            let item = values[index];
-            if(!item) {
-                throw new Error('CategoryManager: index not founnd');
-            }
-            values = item.children;
-        }
+Vue.component('region-component', require('./components/RegionComponent.vue').default);
+Vue.component('region-ajax-component', require('./components/RegionAjaxComponent.vue').default);
+Vue.component('autocomplete', require('./components/AutocompleteComponent.vue').default);
 
 
-        return values;
-    }
-}
 
-new CategoryManager();
 
+
+//
+// let countries = ['agro','nice','good','iva'];
+//
+// new Autocomplete('#autocomplete', {
+//
+//
+//
+//
+// // const app = new Vue({
+// //     el: '#app'
+// // });
+//
+//
+//     search: input => {
+//         if (input.length < 1) { return [] }
+//         return countries.filter(country => {
+//             return country.toLowerCase()
+//                 .startsWith(input.toLowerCase())
+//         })
+//     },
+//
+//     autoSelect: true
+// });
