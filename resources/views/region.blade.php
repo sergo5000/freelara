@@ -23,7 +23,22 @@
                 <br>
                 <h2>222</h2>
 
-                <autocomplete></autocomplete>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Start typing in textbox below for suggestions!</div>
+                                <div class="panel-body">
+                                    <div class="panel-body">
+                                        <autocomplete></autocomplete>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
 
 
                 <div class="form-group">

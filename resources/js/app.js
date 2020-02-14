@@ -6,7 +6,6 @@
 
 require('./bootstrap');
 
-import Autocomplete from '@trevoreyre/autocomplete-vue'
 
 window.Vue = require('vue');
 
@@ -16,13 +15,15 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('region-component', require('./components/RegionComponent.vue').default);
-Vue.component('region-ajax-component', require('./components/RegionAjaxComponent.vue').default);
+//Vue.component('region-component', require('./components/RegionComponent.vue').default);
+//Vue.component('region-ajax-component', require('./components/RegionAjaxComponent.vue').default);
 Vue.component('autocomplete', require('./components/AutocompleteComponent.vue').default);
 
 
 
-
+const app = new Vue({
+     el: '#app'
+ });
 
 //
 // let countries = ['agro','nice','good','iva'];
@@ -32,9 +33,7 @@ Vue.component('autocomplete', require('./components/AutocompleteComponent.vue').
 //
 //
 //
-// // const app = new Vue({
-// //     el: '#app'
-// // });
+
 //
 //
 //     search: input => {
