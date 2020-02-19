@@ -12,16 +12,22 @@ class CategoryController extends Controller
         $categories = Category::defaultOrder()->withDepth()->get()->toTree();
         $categoriesArray = $this->toArray($categories);
 
-        return view('welcome', compact('categories', 'categoriesArray'));
+
+        // Категория с атрибутами
+        $category = Category::find(301);
+
+
+        return view('welcome', compact('categories', 'categoriesArray', 'category'));
     }
 
 
 
     public function create(Request $request)
     {
+        dd($request->all());
+
         $categoryId = $request->input('categories');
         
-        dd(end($categoryId));
 
         // return view('welcome', compact('categories', 'categoriesArray'));
     }
