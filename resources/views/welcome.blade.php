@@ -45,10 +45,14 @@
 {{--                        </div>--}}
 
                         <div id="category-container" class="col align-self-center">
-                            <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>
+                            <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>                            
                         </div>
 
-                        <div class="card mb-3">
+                        <div id="attribute-container" class="col align-self-center">
+                            <div id="attribute-values" hidden>{{ json_encode($attributesArray) }}</div>
+                        </div>
+
+                        <!--<div class="card mb-3">
                             <div class="card-header">
                                 Характеристики
                             </div>
@@ -86,7 +90,7 @@
 
                                 @endforeach
                             </div>
-                        </div>
+                        </div>-->
 
 
 

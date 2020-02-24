@@ -11365,3 +11365,7 @@ a.text-dark:focus {
   min-width: 300px;
 }
 
+.attribute-value {
+  margin: 0 0 20px;
+}
+

@@ -19274,20 +19274,212 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./resources/js/AttributeManager.js":
+/*!******************************************!*\
+  !*** ./resources/js/AttributeManager.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AttributeManager; });
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+var AttributeManager =
+/*#__PURE__*/
+function () {
+  function AttributeManager() {
+    _classCallCheck(this, AttributeManager);
+
+    this.init = this.init.bind(this);
+    this.values = [];
+    this.container;
+    this.allEls = [];
+    document.addEventListener('DOMContentLoaded', this.init);
+  }
+
+  _createClass(AttributeManager, [{
+    key: "init",
+    value: function init() {
+      this.container = document.getElementById('attribute-container');
+
+      if (!this.container) {
+        throw new Error('AttributeManager: Attribute container ​​not found');
+      }
+
+      var values = document.getElementById('attribute-values');
+
+      if (!values) {
+        throw new Error('AttributeManager: Attribute values ​​not found');
+      }
+
+      this.values = JSON.parse(values.innerHTML);
+      values.remove();
+    }
+  }, {
+    key: "removeElements",
+    value: function removeElements(arrayIds) {
+      var _this = this;
+
+      this.allEls.forEach(function (els, i) {
+        if (els && arrayIds.indexOf(els.category_id) == -1) {
+          els.array.forEach(function (el) {
+            el.remove();
+          });
+          _this.allEls[i] = null;
+        }
+      });
+    }
+  }, {
+    key: "add",
+    value: function add(category_id) {
+      var _this2 = this;
+
+      var attributes = this.values[category_id];
+
+      if (!attributes) {
+        return;
+      }
+
+      var els = {
+        category_id: category_id,
+        array: []
+      };
+      attributes.forEach(function (attribute) {
+        if (attribute.variants.length > 0 && attribute.variants[0]) {
+          var el = _this2.addAttributeSelect(attribute);
+
+          els.array.push(el);
+        } else if (attribute.type == 'integer') {
+          var _el = _this2.addAttributeInteget(attribute);
+
+          els.array.push(_el);
+        } else {
+          var _el2 = _this2.addAttributeString(attribute);
+
+          els.array.push(_el2);
+        }
+      });
+      this.allEls.push(els);
+    }
+  }, {
+    key: "addDiv",
+    value: function addDiv() {
+      var div = document.createElement('div');
+      div.classList.add('attribute-value');
+      return div;
+    }
+  }, {
+    key: "addLabel",
+    value: function addLabel(parent, forId, text) {
+      var label = document.createElement('label');
+      label["for"] = 'attribute-' + forId;
+      label.classList.add('col-form-label');
+      label.innerHTML = text;
+      parent.append(label);
+    }
+  }, {
+    key: "addSelect",
+    value: function addSelect(parent, id, values, required) {
+      var _this3 = this;
+
+      var select = document.createElement('select');
+      select.id = 'attribute-' + id;
+      select.name = 'attributes[' + id + ']';
+      select.classList.add('form-control');
+
+      if (required) {
+        select.required = true;
+      }
+
+      this.addOption(select, '', '');
+      values.forEach(function (value) {
+        _this3.addOption(select, value, value);
+      });
+      parent.append(select);
+    }
+  }, {
+    key: "addOption",
+    value: function addOption(parent, text, value) {
+      var el = document.createElement('option');
+      el.innerHTML = text;
+      el.value = value;
+      parent.append(el);
+    }
+  }, {
+    key: "addInput",
+    value: function addInput(parent, type, id, required) {
+      var input = document.createElement('input');
+      input.id = 'attribute-' + id;
+      input.type = type;
+      input.name = 'attributes[' + id + ']';
+      input.classList.add('form-control');
+
+      if (required) {
+        input.required = true;
+      }
+
+      parent.append(input);
+    }
+  }, {
+    key: "addAttributeSelect",
+    value: function addAttributeSelect(attribute) {
+      var div = this.addDiv();
+      this.addLabel(div, attribute.id, attribute.name);
+      this.addSelect(div, attribute.id, attribute.variants, attribute.required);
+      this.container.append(div);
+      return div;
+    }
+  }, {
+    key: "addAttributeInteget",
+    value: function addAttributeInteget(attribute) {
+      var div = this.addDiv();
+      this.addLabel(div, attribute.id, attribute.name);
+      this.addInput(div, 'number', attribute.id, attribute.required);
+      this.container.append(div);
+      return div;
+    }
+  }, {
+    key: "addAttributeString",
+    value: function addAttributeString(attribute) {
+      var div = this.addDiv();
+      this.addLabel(div, attribute.id, attribute.name);
+      this.addInput(div, 'text', attribute.id, attribute.required);
+      this.container.append(div);
+      return div;
+    }
+  }]);
+
+  return AttributeManager;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/CategoryManager.js":
+/*!*****************************************!*\
+  !*** ./resources/js/CategoryManager.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CategoryManager; });
+/* harmony import */ var _AttributeManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AttributeManager */ "./resources/js/AttributeManager.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
 
 var CategoryManager =
 /*#__PURE__*/
@@ -19297,8 +19489,11 @@ function () {
 
     this.init = this.init.bind(this);
     this.change = this.change.bind(this);
+    this.attributeManager = new _AttributeManager__WEBPACK_IMPORTED_MODULE_0__["default"]();
     this.values = [];
+    this.attributeValues = [];
     this.container;
+    this.attributeContainer;
     document.addEventListener('DOMContentLoaded', this.init);
   }
 
@@ -19312,14 +19507,14 @@ function () {
       }
 
       this.container.addEventListener('change', this.change);
-      var categoryValues = document.getElementById('category-values');
+      var values = document.getElementById('category-values');
 
-      if (!categoryValues) {
+      if (!values) {
         throw new Error('CategoryManager: Category values ​​not found');
       }
 
-      this.values = JSON.parse(categoryValues.innerHTML);
-      categoryValues.remove();
+      this.values = JSON.parse(values.innerHTML);
+      values.remove();
       this.addSelect(this.values);
     }
   }, {
@@ -19352,13 +19547,14 @@ function () {
     value: function change(event) {
       var select = event.target;
 
-      if (!select || select.tagName != 'SELECT') {
+      if (!select || select.tagName !== 'SELECT') {
         return;
       }
 
       parent = select.parentElement;
       var parentNumber = parent.dataset.number;
       this.removeElements(parentNumber);
+      this.attributeManager.removeElements(parentNumber.split('-'));
 
       if (select.value) {
         select.name = 'categories[]';
@@ -19373,6 +19569,8 @@ function () {
       if (Object.keys(values).length > 0) {
         this.addSelect(values, currentNumber);
       }
+
+      this.attributeManager.add(select.value);
     }
   }, {
     key: "getCurrentNumber",
@@ -19391,7 +19589,7 @@ function () {
       var els = this.container.querySelectorAll('.category-select');
       var found = false;
       els.forEach(function (el) {
-        if (el.dataset.number == number) {
+        if (el.dataset.number === number) {
           found = true;
         } else if (found) {
           el.remove();
@@ -19422,7 +19620,24 @@ function () {
   return CategoryManager;
 }();
 
-new CategoryManager();
+
+
+/***/ }),
+
+/***/ "./resources/js/app.js":
+/*!*****************************!*\
+  !*** ./resources/js/app.js ***!
+  \*****************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CategoryManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CategoryManager */ "./resources/js/CategoryManager.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+
+new _CategoryManager__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 /***/ }),
 
@@ -19476,8 +19691,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! H:\USR\www\freelara\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! H:\USR\www\freelara\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! H:\USR\www\freelara2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! H:\USR\www\freelara2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
