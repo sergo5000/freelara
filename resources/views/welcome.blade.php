@@ -27,71 +27,52 @@
                         @csrf
 
 
-                        <div class="card mb-3">
+                        <div class="card mb-3 p-5">
 
-
-{{--                        <div class="form-group">--}}
-{{--                            <label for="address" class="col-form-label">Адрес</label>--}}
-{{--                            <div class="row">--}}
-{{--                                <div class="col-md-11">--}}
-{{--                                    <div id="app">--}}
-
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-md-1">--}}
-{{--                                    <span class="btn btn-primary btn-block location-button" data-target="#address"><span class="fa fa-location-arrow"></span></span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-                        <div id="category-container" class="col align-self-center">
-                            <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>                            
-                        </div>
-
-                        <div id="attribute-container" class="col align-self-center">
-                            <div id="attribute-values" hidden>{{ json_encode($attributesArray) }}</div>
-                        </div>
-
-                        <!--<div class="card mb-3">
-                            <div class="card-header">
-                                Характеристики
+                        <div class="form-group row background-item">
+                            <label for="inputTitle" class="col-sm-3 col-form-label">
+                                Заголовок
+                            </label>
+                            <div class="col-sm-9">
+                                <input id="title" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}">
+                                @if ($errors->has('title'))
+                                    <span class="invalid-feedback"><strong>{{ $errors->first('title') }}</strong></span>
+                                @endif
                             </div>
-                            <div class="card-body pb-2">
-                                @foreach ($category->allAttributes() as $attribute)
+                        </div>
 
-                                    <div class="form-group">
-                                        <label for=attribute_{{ $attribute->id }}" class="col-form-label">{{ $attribute->name }}</label>
+                        <div class="form-group row background-item">
+                            <label for="inputPrice" class="col-sm-3 col-form-label">Цена</label>
+                            <div class="col-sm-9">
+                                <input id="price" type="number" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" name="price" value="{{ old('price') }}">
+                                @if ($errors->has('price'))
+                                    <span class="invalid-feedback"><strong>{{ $errors->first('price') }}</strong></span>
+                                @endif
+                            </div>
+                        </div>
 
-                                        @if ($attribute->isSelect())
-
-                                            <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
-                                                <option value=""></option>
-                                                @foreach ($attribute->variants as $variant)
-                                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id) ? ' selected' : '' }}>
-                                                        {{ $variant }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-
-                                        @elseif ($attribute->isNumber())
-
-                                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id) }}">
-
-                                        @else
-
-                                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id) }}">
-
-                                        @endif
-
-                                        @if ($errors->has('parent'))
-                                            <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
-                                        @endif
+                            <div class="form-group row background-item">
+                                <label for="inputCategory-container" class="col-sm-3 col-form-label">
+                                    Категория
+                                </label>
+                                <div class="col-sm-9">
+                                    <div id="category-container" class="">
+                                        <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>
                                     </div>
 
-                                @endforeach
+                                </div>
                             </div>
-                        </div>-->
 
+                            <div class="form-group row background-item">
+                                <label for="inputAttribute-container" class="col-sm-3 col-form-label">
+
+                                </label>
+                                <div class="col-sm-9">
+                                    <div id="attribute-container" class="">
+                                        <div id="attribute-values" hidden>{{ json_encode($attributesArray) }}</div>
+                                    </div>
+                                </div>
+                            </div>
 
 
                         <div class="form-group">
