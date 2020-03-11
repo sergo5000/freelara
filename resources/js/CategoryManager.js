@@ -116,11 +116,10 @@ export default class CategoryManager {
             let index = numberArray[key];
             let item = values[index];
             if(!item) {
-                throw new Error('CategoryManager: index not founnd');
+                throw new Error('CategoryManager: index not found');
             }
             values = item.children;
         }
-
 
         return values;
     }

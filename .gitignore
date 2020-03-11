@@ -19,3 +19,4 @@ yarn-error.log
 /config/database.php
 /database/migrations/2018_03_10_132930_create_advert_attributes_table.php
 /public/mix-manifest.json
+public/js/app.js

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Entity\Category;
 use App\Entity\Attribute;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -16,25 +17,41 @@ class CategoryController extends Controller
         $categoriesArray = $this->categoriesToArray($categories);
         $attributesArray = $this->attributesToArray($attributes);
 
-        // Категория с атрибутами
-        $category = Category::find(301);
-
-        return view('welcome', compact('categoriesArray', 'attributesArray', 'category'));
+        return view('welcome', compact('categoriesArray', 'attributesArray'));
     }
-
-
 
     public function create(Request $request)
     {
-        dd($request->all());
+        $categoryIds = $request->get('categories');
+        $selectedCategoryId = end($categoryIds);
 
-        $categoryId = $request->input('categories');
-        
+        $enteredAttributes = $request->get('attributes');
 
-        // return view('welcome', compact('categories', 'categoriesArray'));
+        if ($selectedCategoryId) {
+            $request->session()->flash('category', $selectedCategoryId);
+        }
+
+        if ($enteredAttributes) {
+            $request->session()->flash('attributes', $enteredAttributes);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'price' => 'required',
+            'categories' => 'present|array',
+            'attributes' => 'present|array',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('welcome')->withErrors($validator)->withInput();
+        }
+
+        $request->session()->flush();
+
+        return redirect()->route('welcome')->with('success', 'Создание прошло успешно');
     }
 
-    protected function categoriesToArray($categories)
+    private function categoriesToArray($categories)
     {
         $categoriesArray = [];
         foreach($categories as $category) {
@@ -47,7 +64,7 @@ class CategoryController extends Controller
         return $categoriesArray;
     }
 
-    protected function attributesToArray($attributes)
+    private function attributesToArray($attributes)
     {
         $category_id = null;
         $attributesArray = [];

@@ -20,13 +20,15 @@
                     <div class="card-header">
                         Создание
                     </div>
-
-
+                    <br>
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
                     <form method="POST" action="{{ route('create') }}">
                         @csrf
-
-
                         <div class="card mb-3 p-5">
 
                         <div class="form-group row background-item">
@@ -56,9 +58,13 @@
                                     Категория
                                 </label>
                                 <div class="col-sm-9">
-                                    <div id="category-container" class="">
-                                        <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>
-                                    </div>
+                                    @if (session('category'))
+                                        {{ json_encode(session('category')) }}
+                                    @else
+                                        <div id="category-container" class="">
+                                            <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>
+                                        </div>
+                                    @endif
 
                                 </div>
                             </div>
@@ -68,9 +74,13 @@
 
                                 </label>
                                 <div class="col-sm-9">
-                                    <div id="attribute-container" class="">
-                                        <div id="attribute-values" hidden>{{ json_encode($attributesArray) }}</div>
-                                    </div>
+                                    @if (session('attributes'))
+                                        {{ json_encode(session('attributes')) }}
+                                    @else
+                                        <div id="attribute-container" class="">
+                                            <div id="attribute-values" hidden>{{ json_encode($attributesArray) }}</div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
