@@ -58,8 +58,8 @@
                                     Категория
                                 </label>
                                 <div class="col-sm-9">
-                                    @if (session('category'))
-                                        {{ json_encode(session('category')) }}
+                                    @if (session('selectedCategoryId'))
+                                        {{ json_encode(session('selectedCategoryId')) }}
                                     @else
                                         <div id="category-container" class="">
                                             <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>
@@ -69,13 +69,14 @@
                                 </div>
                             </div>
 
+
                             <div class="form-group row background-item">
                                 <label for="inputAttribute-container" class="col-sm-3 col-form-label">
 
                                 </label>
                                 <div class="col-sm-9">
-                                    @if (session('attributes'))
-                                        {{ json_encode(session('attributes')) }}
+                                    @if (session('enteredAttributes'))
+                                        {{ json_encode(session('enteredAttributes')) }}
                                     @else
                                         <div id="attribute-container" class="">
                                             <div id="attribute-values" hidden>{{ json_encode($attributesArray) }}</div>

@@ -28,11 +28,11 @@ class CategoryController extends Controller
         $enteredAttributes = $request->get('attributes');
 
         if ($selectedCategoryId) {
-            $request->session()->flash('category', $selectedCategoryId);
+            $request->session()->flash('selectedCategoryId', $selectedCategoryId);
         }
 
         if ($enteredAttributes) {
-            $request->session()->flash('attributes', $enteredAttributes);
+            $request->session()->flash('enteredAttributes', $enteredAttributes);
         }
 
         $validator = Validator::make($request->all(), [
