@@ -23,12 +23,12 @@ class CategoryController extends Controller
     public function create(Request $request)
     {
         $categoryIds = $request->get('categories');
-        $selectedCategoryId = end($categoryIds);
+        //$selectedCategoryId = end($categoryIds);
 
         $enteredAttributes = $request->get('attributes');
 
-        if ($selectedCategoryId) {
-            $request->session()->flash('selectedCategoryId', $selectedCategoryId);
+        if ($categoryIds) {
+            $request->session()->flash('selectedCategoryId', $categoryIds);
         }
 
         if ($enteredAttributes) {
@@ -97,3 +97,4 @@ class CategoryController extends Controller
         return $attributesArray;
     }
 }
+

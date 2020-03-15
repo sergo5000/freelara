@@ -58,33 +58,17 @@
                                     Категория
                                 </label>
                                 <div class="col-sm-9">
-                                    @if (session('selectedCategoryId'))
-                                        {{ json_encode(session('selectedCategoryId')) }}
-                                    @else
-                                        <div id="category-container" class="">
-                                            <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>
-                                        </div>
-                                    @endif
-
+                                    <div id="category-container" class="">
+                                        <div id="category-values" hidden>{{ json_encode($categoriesArray) }}</div>
+                                        <div id="category-current" hidden>{{ session('selectedCategoryId') ? json_encode(session('selectedCategoryId')) : '' }}</div>
+                                    </div>
                                 </div>
                             </div>
 
-
-                            <div class="form-group row background-item">
-                                <label for="inputAttribute-container" class="col-sm-3 col-form-label">
-
-                                </label>
-                                <div class="col-sm-9">
-                                    @if (session('enteredAttributes'))
-                                        {{ json_encode(session('enteredAttributes')) }}
-                                    @else
-                                        <div id="attribute-container" class="">
-                                            <div id="attribute-values" hidden>{{ json_encode($attributesArray) }}</div>
-                                        </div>
-                                    @endif
-                                </div>
+                            <div id="attribute-container" class="">
+                                <div id="attribute-values" hidden>{{ json_encode($attributesArray) }}</div>
+                                <div id="attribute-current" hidden>{{ session('enteredAttributes') ? json_encode(session('enteredAttributes')) : '' }}</div>
                             </div>
-
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Создать</button>

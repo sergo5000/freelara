@@ -16,21 +16,95 @@ export default class CategoryManager {
     }
 
     init() {
+        this.initValues();
+        this.initCurrentCategories();
+        this.initCurrentAttributes();
+    }
+
+    initValues() {
         this.container = document.getElementById('category-container');
         if(!this.container) {
             throw new Error('CategoryManager: Category container ​​not found');
         }
         this.container.addEventListener('change', this.change);
 
-        let values = document.getElementById('category-values');
-        if(!values) {
+        let el = document.getElementById('category-values');
+        if(!el) {
             throw new Error('CategoryManager: Category values ​​not found');
         }
 
-        this.values = JSON.parse(values.innerHTML);
-        values.remove();
+        this.values = JSON.parse(el.innerHTML);
+        el.remove();
 
         this.addSelect(this.values);
+    }
+
+    initCurrentCategories() {
+        let el = document.getElementById('category-current');
+        if(!el) {
+            return;
+        }
+
+        let values = el.innerHTML;
+        el.remove();
+
+        if(!values) {
+            return;
+        }
+
+        let currents = JSON.parse(values);        
+
+        for(let key in currents) {
+            let item = currents[key];
+
+            let selects = document.querySelectorAll('.category-select select');
+            if(!selects.length) {
+                return;
+            }
+
+            let select = selects[selects.length - 1];
+            select.value = item;
+
+            let event = new Event('change', {bubbles : true, cancelable : false});
+            select.dispatchEvent(event);
+        }        
+    }
+
+    initCurrentAttributes() {
+        let el = document.getElementById('attribute-current');
+        if(!el) {
+            return;
+        }
+
+        let values = el.innerHTML;
+        el.remove();
+
+        if(!values) {
+            return;
+        }        
+
+        let currents = JSON.parse(values);
+        currents = Object.values(currents);        
+
+        let attributeEls = document.querySelectorAll('.attribute-value input, .attribute-value select');
+        if(!attributeEls.length) {
+            return;
+        }
+
+        for(let key in currents) {
+            let item = currents[key];
+
+            if(!item) {
+                continue;
+            }
+
+            if(key >= attributeEls.length) {
+                return;
+            }
+
+            let attributeEl = attributeEls[key];
+            attributeEl.value = item;
+        }
     }
 
     addSelect(values, number = '') {

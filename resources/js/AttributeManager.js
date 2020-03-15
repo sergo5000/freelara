@@ -65,6 +65,9 @@ export default class AttributeManager {
     addDiv() {
         let div = document.createElement('div');
         div.classList.add('attribute-value');
+        div.classList.add('form-group');
+        div.classList.add('row');
+        div.classList.add('background-item');
 
         return div;
     }
@@ -73,6 +76,7 @@ export default class AttributeManager {
         let label = document.createElement('label');
         label.for = 'attribute-' + forId;
         label.classList.add('col-form-label');
+        label.classList.add('col-sm-3');
         label.innerHTML = text;
 
         parent.append(label);
@@ -118,11 +122,21 @@ export default class AttributeManager {
         parent.append(input);
     }
 
-    addAttributeSelect(attribute) {
-        let div = this.addDiv();
+    addWrapperElement(parent) {
+        let div = document.createElement('div');
+        div.classList.add('col-sm-9');
 
-        this.addLabel(div, attribute.id, attribute.name);
-        this.addSelect(div, attribute.id, attribute.variants, attribute.required);
+        parent.append(div);
+
+        return div;
+    }
+
+    addAttributeSelect(attribute) {
+        let div = this.addDiv();       
+        this.addLabel(div, attribute.id, attribute.name); 
+        
+        let wrapper = this.addWrapperElement(div);
+        this.addSelect(wrapper, attribute.id, attribute.variants, attribute.required);
         
         this.container.append(div);
 
@@ -131,9 +145,10 @@ export default class AttributeManager {
 
     addAttributeInteget(attribute) {
         let div = this.addDiv();
-
         this.addLabel(div, attribute.id, attribute.name);
-        this.addInput(div, 'number', attribute.id, attribute.required);
+
+        let wrapper = this.addWrapperElement(div);
+        this.addInput(wrapper, 'number', attribute.id, attribute.required);
         
         this.container.append(div);
 
@@ -142,9 +157,10 @@ export default class AttributeManager {
 
     addAttributeString(attribute) {
         let div = this.addDiv();
-
         this.addLabel(div, attribute.id, attribute.name);
-        this.addInput(div, 'text', attribute.id, attribute.required);
+
+        let wrapper = this.addWrapperElement(div);
+        this.addInput(wrapper, 'text', attribute.id, attribute.required);
         
         this.container.append(div);
 
